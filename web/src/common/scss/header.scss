@@ -1,0 +1,23 @@
+.commonHeader {
+  box-sizing: border-box;
+  width: 100%;
+  padding: 0 20px;
+  .headerUl {
+    margin-left: 50px;
+    width: 600px;
+    float: left;
+    li {
+      margin-right: 20px;
+      cursor: pointer;
+      float: left;
+      padding: 0 20px;
+      line-height: 60px;
+      font-size: 16px;
+      border-bottom: 4px solid #fff;
+      &.cur {
+        color: #409eff;
+        border-bottom: 4px solid #4093ff;
+      }
+    }
+  }
+}
