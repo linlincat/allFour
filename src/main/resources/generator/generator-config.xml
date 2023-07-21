@@ -4,6 +4,10 @@
         "http://mybatis.org/dtd/mybatis-generator-config_1_0.dtd">
 
 <generatorConfiguration>
+    <!--数据库驱动包路径 因为mac直接开着不需要配置-->
+    <!--<classPathEntry
+            location="/Users/it/Documents/JAVA/lib/
+            mysql-connector-java-5.0.8/mysql-connector-java-5.0.8-bin.jar"/>-->
     <context id="Mysql" targetRuntime="MyBatis3" defaultModelType="flat">
 
         <!-- 自动检查关键字，为关键字增加反引号 -->
@@ -22,26 +26,27 @@
         </commentGenerator>
 
         <jdbcConnection driverClass="com.mysql.cj.jdbc.Driver"
-                        connectionURL="jdbc:mysql://localhost:3306/data?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai"
+                        connectionURL="jdbc:mysql://localhost:3306/four?useSSL=true&amp;useUnicode=true&amp;characterEncoding=utf-8&amp;serverTimezone=Asia/Shanghai"
                         userId="mySelf"
                         password="123456">
         </jdbcConnection>
 
         <!-- domain类的位置 -->
-        <javaModelGenerator targetProject="/Users/xiaopingguo/Desktop/afterPlan/src/main/java"
-                            targetPackage="com.four.afterplan.domain"/>
+        <javaModelGenerator targetProject="src/main/java"
+                            targetPackage="com.four.m.domain"/>
 
         <!-- mapper xml的位置 -->
-        <sqlMapGenerator targetProject="/Users/xiaopingguo/Desktop/afterPlan/src/main/resources"
+        <sqlMapGenerator targetProject="src/main/resources"
                          targetPackage="mapper"/>
 
         <!-- mapper类的位置 -->
-        <javaClientGenerator targetProject="/Users/xiaopingguo/Desktop/afterPlan/src/main/java"
-                             targetPackage="com.four.afterplan.mapper"
+        <javaClientGenerator targetProject="src/main/java"
+                             targetPackage="com.four.m.mapper"
                              type="XMLMAPPER"/>
-
+<!--enableCountByExample，默认 true，MyBatis3Simple 为 false，
+指定是否生成动态查询总条数语句（用于分页的总条数查询）；-->
         <!-- <table tableName="demo" domainObjectName="Demo"/>-->
-<!--        <table tableName="ebook" domainObjectName="Ebook"/>-->
+        <!--        <table tableName="ebook" domainObjectName="Ebook"/>-->
         <table tableName="category"/>
         <!--<table tableName="doc"/>-->
         <!--<table tableName="content"/>-->

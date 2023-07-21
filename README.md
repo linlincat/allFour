@@ -11,6 +11,7 @@
 JAVA 1.8
 SpringBoot 2.4
 Mybatis
+Redis
 Vue3
 TypeSpring
 Html5
@@ -36,3 +37,5 @@ github
 #### 参与贡献
 
 #### 特技
+
+spring springBoot springCloud[做微服务]

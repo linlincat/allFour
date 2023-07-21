@@ -8,9 +8,14 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.List;
 
+/*
+* 描述  演示接口
+* */
+
 @RestController
 public class TestController {
     @Resource
+    // @AutoWired
     private TestServer testServer;
 
     @GetMapping("/list")
