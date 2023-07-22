@@ -5,10 +5,12 @@ import com.four.m.exception.FourException;
 import com.four.m.exception.FourExceptionEnum;
 import com.four.m.mapper.UserMapper;
 import com.four.m.service.UserService;
+import com.four.m.utils.MD5Utils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.annotation.Resource;
+import java.security.NoSuchAlgorithmException;
 
 /**
  * 描述：     UserService实现类
@@ -35,7 +37,11 @@ public class UserServiceImpl implements UserService {
         // 写入数据库
         User user = new User ();
         user.setUsername (userName);
-        user.setPassword (password);
+        try {
+            user.setPassword (MD5Utils.getMD5Str (password));
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace ();
+        }
         // 将创建出来的用户类，用mapper去插入到数据库
         int count = userMapper.insertSelective (user);
         if(count == 0 ) {

@@ -5,7 +5,6 @@ import com.four.m.exception.FourException;
 import com.four.m.exception.FourExceptionEnum;
 import com.four.m.service.UserService;
 import com.github.pagehelper.util.StringUtil;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
