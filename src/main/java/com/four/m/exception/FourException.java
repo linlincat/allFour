@@ -1,9 +1,9 @@
 package com.four.m.exception;
 
 /*
-* 描述：     统一异常
+* 描述：     统一异常 Exception 改成RuntimeException
 * */
-public class FourException extends Exception {
+public class FourException extends RuntimeException {
     private final Integer code;
     private final String message;
 

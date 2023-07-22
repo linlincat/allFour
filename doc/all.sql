@@ -14,5 +14,20 @@ create table `destlin`
 ) engine = innodb
   default charset = utf8mb4 comment ='eeee';
 
-ALTER TABLE `four`.`m_user`
-    MODIFY COLUMN `id` int(8) ZEROFILL NOT NULL  AUTO_INCREMENT COMMENT '用户ID' FIRST;
+-- 1.用户表t_user
+CREATE TABLE `t_user` (
+  `id` int(11) NOT NULL AUTO_INCREMENT, -- 用户编号
+  `username` varchar(32) DEFAULT NULL,	-- 用户名字
+  `password` varchar(32) DEFAULT NULL,	-- 用户密码
+  `email` varchar(32) DEFAULT NULL,		-- 用户邮箱
+  `createTime` timestamp not NULL DEFAULT CURRENT_TIMESTAMP, -- 该用户创建时间
+  `updateTime` timestamp not NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP, -- 该用户修改时间
+  PRIMARY KEY (`id`) -- 设置主键
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
+
+# insert into t_user values
+# (null,'admin','1234','admin@163.com',null,null);
+
+
+ALTER TABLE `four`.`m_category`
+    MODIFY COLUMN `update_time` timestamp not NULL DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP;
