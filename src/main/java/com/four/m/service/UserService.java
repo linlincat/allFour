@@ -14,4 +14,8 @@ public interface UserService {
     void register(String userName, String password) throws FourException;
 
     User login(String userName, String password) throws FourException;
+
+    void updateInformation(User user) throws FourException;
+
+    boolean checkAdminRole(User user);
 }

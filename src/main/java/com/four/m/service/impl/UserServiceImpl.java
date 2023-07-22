@@ -9,6 +9,7 @@ import com.four.m.utils.MD5Utils;
 import jdk.nashorn.internal.ir.ReturnNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import sun.jvm.hotspot.debugger.SymbolLookup;
 
 import javax.annotation.Resource;
 import java.security.NoSuchAlgorithmException;
@@ -58,10 +59,27 @@ public class UserServiceImpl implements UserService {
         } catch (NoSuchAlgorithmException e) {
             e.printStackTrace ();
         }
-        User user = userMapper.selectLogin (userName, password);
+        User user = userMapper.selectLogin (userName, md5Password);
         if(user == null) {
+            // 服务层需要throw 抛出错误
             throw new FourException (FourExceptionEnum.WRONG_PASSWORD);
         }
         return user;
+    }
+
+    @Override
+    public void updateInformation(User user) throws FourException {
+        // 更新个性签名
+        // 只能更新一条数据根据updateByPrimaryKeySelective 主键更新的
+        int updataCount = userMapper.updateByPrimaryKeySelective (user);
+        if(updataCount > 1) {
+            throw new FourException (FourExceptionEnum.UPDATE_FAILED);
+        }
+    }
+
+    @Override
+    public boolean checkAdminRole(User user) {
+        // 1是普通用户  2是管理员
+        return user.getRole ().equals (2);
     }
 }
