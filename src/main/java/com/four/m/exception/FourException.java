@@ -13,6 +13,7 @@ public class FourException extends Exception {
     }
 
     public FourException(FourExceptionEnum exceptionEnum) {
+
         this(exceptionEnum.getCode (), exceptionEnum.getMsg ());
     }
 
