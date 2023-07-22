@@ -6,6 +6,7 @@ import com.four.m.exception.FourExceptionEnum;
 import com.four.m.mapper.UserMapper;
 import com.four.m.service.UserService;
 import com.four.m.utils.MD5Utils;
+import jdk.nashorn.internal.ir.ReturnNode;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -28,7 +29,7 @@ public class UserServiceImpl implements UserService {
 
     //1、检查是否正确的重写了父类中的方法。 2、标明代码，这是一个重写的方法。
     @Override
-    public void register(String userName, String password) throws FourException {
+    public void  register(String userName, String password) throws FourException {
         // 查询用户名是否为空，不允许重名 
         User result = userMapper.selectByName (userName);
         if (result != null) {
@@ -49,4 +50,18 @@ public class UserServiceImpl implements UserService {
         }
     }
 
+    @Override
+    public User login(String userName, String password) throws FourException {
+        String md5Password = null;
+        try {
+            md5Password = MD5Utils.getMD5Str (password);
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace ();
+        }
+        User user = userMapper.selectLogin (userName, password);
+        if(user == null) {
+            throw new FourException (FourExceptionEnum.WRONG_PASSWORD);
+        }
+        return user;
+    }
 }

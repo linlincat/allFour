@@ -20,5 +20,6 @@ public interface UserMapper {
 
     User selectByName(String userName);
 
-    User selectLogin(@Param("userName") String userName, @Param("password")String password);
+    // mapper里面如果有一个参数是不需要添加param注解的
+    User selectLogin(@Param("userName") String userName, @Param("password") String password);
 }

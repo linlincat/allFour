@@ -1,6 +1,8 @@
 package com.four.m.controller;
 
 import com.four.m.common.ApiRestResponse;
+import com.four.m.common.Constant;
+import com.four.m.domain.User;
 import com.four.m.exception.FourException;
 import com.four.m.exception.FourExceptionEnum;
 import com.four.m.service.UserService;
@@ -11,6 +13,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import javax.servlet.http.HttpSession;
 
 @RestController
 public class UserController {
@@ -36,5 +39,24 @@ public class UserController {
 
         userService.register (userName, password);
         return ApiRestResponse.success ();
+    }
+
+    @PostMapping("/login")
+    @ResponseBody
+    public ApiRestResponse login(@RequestParam("userName") String userName,
+                                 @RequestParam("password") String password,
+                                 HttpSession session) throws FourException {
+        // StringUtil 字符串的方法
+        if (StringUtil.isEmpty (userName)) {
+            return ApiRestResponse.error (FourExceptionEnum.NEED_USER_NAME);
+        }
+        if (StringUtil.isEmpty (password)) {
+            return ApiRestResponse.error (FourExceptionEnum.NEED_PASSWORD);
+        }
+        User user = userService.login (userName, password);
+        // 防止密码泄露返回给用户的时候清空
+        user.setPassword (null);
+        session.setAttribute (Constant.FOUR_USER, user);
+        return ApiRestResponse.success (user);
     }
 }

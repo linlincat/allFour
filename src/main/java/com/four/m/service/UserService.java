@@ -12,4 +12,6 @@ public interface UserService {
     User getUser();
 
     void register(String userName, String password) throws FourException;
+
+    User login(String userName, String password) throws FourException;
 }
