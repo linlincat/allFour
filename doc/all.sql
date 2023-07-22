@@ -13,3 +13,6 @@ create table `destlin`
     primary key (`id`)
 ) engine = innodb
   default charset = utf8mb4 comment ='eeee';
+
+ALTER TABLE `four`.`m_user`
+    MODIFY COLUMN `id` int(8) ZEROFILL NOT NULL  AUTO_INCREMENT COMMENT '用户ID' FIRST;
