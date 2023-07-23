@@ -15,6 +15,7 @@ public enum FourExceptionEnum {
     NEED_ADMIN(10009, "无管理权限"),
     PARA_NOT_NULL(10010, "参数不能为空"),
     CREATE_FAIL(10011, "新增失败"),
+    REQUEST_PARAM(10012, "参数错误"),
 
     SYSTEM_ERROR(20000, "系统异常");
     /*
