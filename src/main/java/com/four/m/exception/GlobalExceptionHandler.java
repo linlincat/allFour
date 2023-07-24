@@ -44,6 +44,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     public ApiRestResponse MethodArgumentNotValidException(MethodArgumentNotValidException e) {
         log.error ("MethodArgumentNotValidException: ", e);
+        // BindingResult用在实体类校验信息返回结果绑定
         return  handleBindingResult(e.getBindingResult ());
     }
 
@@ -52,12 +53,15 @@ public class GlobalExceptionHandler {
         List<String> list = new ArrayList<> ();  // 定义为null后面是不能（add）直接添加的
         if (result.hasErrors ()) {
             List<ObjectError> allErrors = result.getAllErrors ();
+            // iter 快捷键
             for(ObjectError objectError: allErrors) {
                 String message = objectError.getDefaultMessage ();
                 list.add (message);
             }
         }
         // list==null 上方已经定义ArrayList了，所以不可能在为null了
+        // 通常不会到这，因为有报错就应该在上方到循环判断拿到对象了，但如果就是拿不到数据呢，
+        // 就直接返回:   参数错误
         if (list.size () == 0) {
             return ApiRestResponse.error (FourExceptionEnum.REQUEST_PARAM);
         }

@@ -8,11 +8,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.core.env.Environment;
 import org.springframework.web.bind.annotation.RestController;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 //把应用移动到包内需要添加注解
 @ComponentScan("com.four")
 // 告诉应用我持久化了
 @MapperScan("com.four.m.mapper")
+// 添加swagger开启
+@EnableSwagger2
 @SpringBootApplication
 public class MlinApplication {
     private static  final  Logger LOG = LoggerFactory.getLogger(MlinApplication.class);

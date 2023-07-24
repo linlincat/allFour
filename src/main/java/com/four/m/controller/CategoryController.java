@@ -7,6 +7,7 @@ import com.four.m.exception.FourExceptionEnum;
 import com.four.m.model.request.AddCategoryReq;
 import com.four.m.service.CategoryService;
 import com.four.m.service.UserService;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,7 @@ public class CategoryController {
     @Autowired
     CategoryService categoryService;
 
+    @ApiOperation ("添加目录/分类")
     @PostMapping("admin/category/add")
     @ResponseBody
     public ApiRestResponse addCategory(HttpSession session, @Valid @RequestBody AddCategoryReq addCategoryReq) {
