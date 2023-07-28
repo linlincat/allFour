@@ -1,16 +1,23 @@
 package com.four.m.common;
 
 import com.four.m.exception.FourExceptionEnum;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 
 /*
  * 描述：   通用返回对象
  * */
+
+@ApiModel("通用返回类")
 public class ApiRestResponse<T> {
 
+    @ApiModelProperty("状态码")
     private Integer status;
 
+    @ApiModelProperty("信息描述")
     private String msg;
 
+    @ApiModelProperty("数据")
     private T data;
 
     // 定义好常量

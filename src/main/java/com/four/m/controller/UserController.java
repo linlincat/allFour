@@ -7,7 +7,7 @@ import com.four.m.exception.FourException;
 import com.four.m.exception.FourExceptionEnum;
 import com.four.m.service.UserService;
 import com.github.pagehelper.util.StringUtil;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import org.springframework.util.ObjectUtils;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,11 +17,18 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpSession;
 
+@Api(tags = "用户-控制层")
 @RestController
 public class UserController {
 
     @Resource
     UserService userService;
+
+    @PostMapping("/user")
+    public User user() {
+        return new User();
+    }
+
 
     @ApiOperation("用户注册")
     @PostMapping("/register")
@@ -44,9 +51,14 @@ public class UserController {
         return ApiRestResponse.success ();
     }
     @ApiOperation ("用户登录")
+    @ApiResponses ({
+            @ApiResponse (code=10000, message="用户登录成功"),
+            @ApiResponse (code=20000, message="系统报错")
+    })
     @PostMapping("/login")
     @ResponseBody
-    public ApiRestResponse login(@RequestParam("userName") String userName,
+    // ApiRestResponse<User>不添加范型，swapper @ApiModel 返回内容注释在model中不显示
+    public ApiRestResponse<User> login(@RequestParam("userName") String userName,
                                  @RequestParam("password") String password,
                                  HttpSession session) throws FourException {
         // StringUtil 字符串的方法

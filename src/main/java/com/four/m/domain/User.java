@@ -1,20 +1,25 @@
 package com.four.m.domain;
 
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
+
 import java.util.Date;
 
+@ApiModel("用户实体类")
 public class User {
     private Integer id;
 
+    @ApiModelProperty("用户名")
     private String username;
-
+    @ApiModelProperty("密码")
     private String password;
-
+    @ApiModelProperty("签名")
     private String personalizedSignature;
-
+    @ApiModelProperty("角色")
     private Integer role;
-
+    @ApiModelProperty("创建时间")
     private Date createTime;
-
+    @ApiModelProperty("更新时间")
     private Date updateTime;
 
     public Integer getId() {
@@ -71,5 +76,18 @@ public class User {
 
     public void setUpdateTime(Date updateTime) {
         this.updateTime = updateTime;
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "id=" + id +
+                ", username='" + username + '\'' +
+                ", password='" + password + '\'' +
+                ", personalizedSignature='" + personalizedSignature + '\'' +
+                ", role=" + role +
+                ", createTime=" + createTime +
+                ", updateTime=" + updateTime +
+                '}';
     }
 }

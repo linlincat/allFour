@@ -7,6 +7,7 @@ import com.four.m.exception.FourExceptionEnum;
 import com.four.m.model.request.AddCategoryReq;
 import com.four.m.service.CategoryService;
 import com.four.m.service.UserService;
+import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,6 +21,7 @@ import javax.validation.Valid;
 /*
  * 描述:    商品目录-分类
  * */
+@Api(tags = {"商品目录/分类-控制器"})
 @RestController
 public class CategoryController {
     @Autowired
