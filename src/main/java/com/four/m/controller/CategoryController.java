@@ -5,8 +5,10 @@ import com.four.m.common.Constant;
 import com.four.m.domain.User;
 import com.four.m.exception.FourExceptionEnum;
 import com.four.m.model.request.AddCategoryReq;
+import com.four.m.model.vo.CategoryVo;
 import com.four.m.service.CategoryService;
 import com.four.m.service.UserService;
+import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
+import java.util.List;
 
 /*
  * 描述:    商品目录-分类
@@ -50,6 +53,22 @@ public class CategoryController {
     public ApiRestResponse delete(@RequestParam Integer id) {
         categoryService.delete (id);
         return ApiRestResponse.success ();
+    }
+
+    @ApiOperation ("后台目录列表")
+    @PostMapping("admin/category/list")
+    @ResponseBody
+    public ApiRestResponse listCategoryForAdmin(@RequestParam Integer pageNum, @RequestParam Integer pageSize) {
+        PageInfo pageInfo = categoryService.listForAdmin (pageNum, pageSize);
+        return  ApiRestResponse.success (pageInfo);
+    }
+
+    @ApiOperation ("前台目录列表")
+    @PostMapping("category/list")
+    @ResponseBody
+    public ApiRestResponse listCategoryForCustomer() {
+        List<CategoryVo> categoryVos = categoryService.listCategoryForCustomer ();
+        return ApiRestResponse.success (categoryVos);
     }
 
 
