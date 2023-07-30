@@ -13,9 +13,13 @@ public class FourWebMvcConfig implements WebMvcConfigurer {
 
     @Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
+
 //        registry.addResourceHandler("/admin/**").addResourceLocations("classpath:/static/admin/");
-//        registry.addResourceHandler("/images/**")
-//                .addResourceLocations("file:" + Constant.FILE_UPLOAD_DIR);
+        // 配置图片上传
+        registry.addResourceHandler("/images/**")
+                .addResourceLocations("file:" + Constant.FILE_UPLOAD_DIR);
+
+        // 配置swagger
         registry.addResourceHandler("swagger-ui.html").addResourceLocations(
                 "classpath:/META-INF/resources/");
         registry.addResourceHandler("/webjars/**").addResourceLocations(
