@@ -6,6 +6,7 @@ import com.four.m.domain.Product;
 import com.four.m.exception.FourException;
 import com.four.m.exception.FourExceptionEnum;
 import com.four.m.model.request.AddProductReq;
+import com.four.m.model.request.UpdateProductReq;
 import com.four.m.service.ProductService;
 import com.github.pagehelper.PageInfo;
 import io.swagger.annotations.ApiOperation;
@@ -78,21 +79,21 @@ public class ProductAdminController {
         return effectiveURI;
     }
 
-//    @ApiOperation("后台更新商品")
-//    @PostMapping("/admin/product/update")
-//    public ApiRestResponse updateProduct(@Valid @RequestBody UpdateProductReq updateProductReq) {
-//        Product product = new Product();
-//        BeanUtils.copyProperties(updateProductReq, product);
-//        productService.update(product);
-//        return ApiRestResponse.success();
-//    }
-//
-//    @ApiOperation("后台删除商品")
-//    @PostMapping("/admin/product/delete")
-//    public ApiRestResponse deleteProduct(@RequestParam Integer id) {
-//        productService.delete(id);
-//        return ApiRestResponse.success();
-//    }
+    @ApiOperation("后台更新商品")
+    @PostMapping("/admin/product/update")
+    public ApiRestResponse updateProduct(@Valid @RequestBody UpdateProductReq updateProductReq) {
+        Product product = new Product();
+        BeanUtils.copyProperties(updateProductReq, product);
+        productService.update(product);
+        return ApiRestResponse.success();
+    }
+
+    @ApiOperation("后台删除商品")
+    @PostMapping("/admin/product/delete")
+    public ApiRestResponse deleteProduct(@RequestParam Integer id) {
+        productService.delete(id);
+        return ApiRestResponse.success();
+    }
 //
 //    @ApiOperation("后台批量上下架接口")
 //    @PostMapping("/admin/product/batchUpdateSellStatus")
