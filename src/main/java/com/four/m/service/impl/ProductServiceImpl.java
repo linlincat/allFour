@@ -6,11 +6,15 @@ import com.four.m.exception.FourExceptionEnum;
 import com.four.m.mapper.ProductMapper;
 import com.four.m.model.request.AddProductReq;
 import com.four.m.service.ProductService;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import org.springframework.web.bind.annotation.RequestParam;
+
+import java.util.List;
 
 /**
  * 描述：     商品服务实现类
@@ -65,8 +69,21 @@ public class ProductServiceImpl implements ProductService {
     // 通过提示报错，修改直接在接口类中生成类，就没有用@Override注解方式实现
     public void batchUpdateSellStatus(Integer[] ids,
                                       Integer sellStatus) {
-        productMapper.batchUpdateSellStatus(ids, sellStatus);
+        productMapper.batchUpdateSellStatus (ids, sellStatus);
     }
 
 
+    @Override
+    public PageInfo listForAdmin(Integer pageNum, Integer pageSize) {
+        PageHelper.startPage(pageNum, pageSize);
+        List<Product> products = productMapper.selectListForAdmin();
+        PageInfo pageInfo = new PageInfo(products);
+        return pageInfo;
+    }
+
+    @Override
+    public Product detail(Integer id) {
+        Product product = productMapper.selectByPrimaryKey (id);
+        return product;
+    }
 }

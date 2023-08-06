@@ -102,12 +102,12 @@ public class ProductAdminController {
         productService.batchUpdateSellStatus(ids, sellStatus);
         return ApiRestResponse.success();
     }
-//
-//    @ApiOperation("后台商品列表接口")
-//    @GetMapping("/admin/product/list")
-//    public ApiRestResponse list(@RequestParam Integer pageNum,
-//            @RequestParam Integer pageSize) {
-//        PageInfo pageInfo = productService.listForAdmin(pageNum, pageSize);
-//        return ApiRestResponse.success(pageInfo);
-//    }
+
+    @ApiOperation("后台商品列表接口")
+    @GetMapping("/admin/product/list")
+    public ApiRestResponse list(@RequestParam Integer pageNum,
+            @RequestParam Integer pageSize) {
+        PageInfo pageInfo = productService.listForAdmin(pageNum, pageSize);
+        return ApiRestResponse.success(pageInfo);
+    }
 }

@@ -164,12 +164,12 @@
       #{id}
     </foreach>
   </update>
-<!--  <select id="selectListForAdmin" resultMap="BaseResultMap">-->
-<!--    select-->
-<!--    <include refid="Base_Column_List"/>-->
-<!--    from m_product-->
-<!--    order by update_time desc-->
-<!--  </select>-->
+  <select id="selectListForAdmin" resultMap="BaseResultMap">
+    select
+    <include refid="Base_Column_List"/>
+    from m_product
+    order by update_time desc
+  </select>
 <!--  <select id="selectList" resultMap="BaseResultMap"-->
 <!--    parameterType="com.imooc.mall.model.query.ProductListQuery">-->
 <!--    select-->
