@@ -23,7 +23,7 @@ public interface ProductMapper {
 
     Product selectByName(String name);
 
-//    int batchUpdateSellStatus(@Param("ids") Integer[] ids, @Param("sellStatus") Integer sellStatus);
+    int batchUpdateSellStatus(@Param("ids") Integer[] ids, @Param("sellStatus") Integer sellStatus);
 //
 //    List<Product> selectListForAdmin();
 

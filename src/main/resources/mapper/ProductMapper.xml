@@ -156,14 +156,14 @@
     from m_product
     where name = #{name,jdbcType = VARCHAR}
   </select>
-<!--  <update id="batchUpdateSellStatus">-->
-<!--    update m_product-->
-<!--    set status=#{sellStatus}-->
-<!--    where id in-->
-<!--    <foreach collection="ids" close=")" item="id" open="(" separator=",">-->
-<!--      #{id}-->
-<!--    </foreach>-->
-<!--  </update>-->
+  <update id="batchUpdateSellStatus">
+    update m_product
+    set status=#{sellStatus}
+    where id in
+    <foreach collection="ids" close=")" item="id" open="(" separator=",">
+      #{id}
+    </foreach>
+  </update>
 <!--  <select id="selectListForAdmin" resultMap="BaseResultMap">-->
 <!--    select-->
 <!--    <include refid="Base_Column_List"/>-->

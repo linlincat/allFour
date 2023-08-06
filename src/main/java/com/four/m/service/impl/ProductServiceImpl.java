@@ -10,6 +10,7 @@ import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
+import org.springframework.web.bind.annotation.RequestParam;
 
 /**
  * 描述：     商品服务实现类
@@ -38,30 +39,34 @@ public class ProductServiceImpl implements ProductService {
     public void update(Product updateProduct) {
         Product productOld = productMapper.selectByName (updateProduct.getName ());
         // 同名且不同ID，不能修改
-        if(productOld !=null && !productOld.getId ().equals (updateProduct.getId ())){
+        if (productOld != null && !productOld.getId ().equals (updateProduct.getId ())) {
             throw new FourException (FourExceptionEnum.NAME_EXISTED);
         }
         int count = productMapper.updateByPrimaryKeySelective (updateProduct);
-        if (count==0) {
+        if (count == 0) {
             throw new FourException (FourExceptionEnum.UPDATE_FAILED);
         }
     }
-
 
 
     @Override
     public void delete(Integer id) {
         Product productOld = productMapper.selectByPrimaryKey (id);
         // 查不到该条记录，无法删除
-        if(productOld ==null){
+        if (productOld == null) {
             throw new FourException (FourExceptionEnum.DELETE_FAILED);
         }
         int count = productMapper.deleteByPrimaryKey (id);
-        if (count==0) {
+        if (count == 0) {
             throw new FourException (FourExceptionEnum.DELETE_FAILED);
         }
     }
 
+    // 通过提示报错，修改直接在接口类中生成类，就没有用@Override注解方式实现
+    public void batchUpdateSellStatus(Integer[] ids,
+                                      Integer sellStatus) {
+        productMapper.batchUpdateSellStatus(ids, sellStatus);
+    }
 
 
 }
