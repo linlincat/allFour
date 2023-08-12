@@ -18,5 +18,5 @@ public interface CategoryService {
     PageInfo listForAdmin(Integer pageNum, Integer pageSize);
 
     // ArrayList需要范型的时候加上<>
-    List<CategoryVo> listCategoryForCustomer();
+    List<CategoryVo> listCategoryForCustomer(Integer parentId);
 }

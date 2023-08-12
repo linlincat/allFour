@@ -2,6 +2,7 @@ package com.four.m.service;
 
 import com.four.m.domain.Product;
 import com.four.m.model.request.AddProductReq;
+import com.four.m.model.request.ProductListReq;
 import com.github.pagehelper.PageInfo;
 
 /**
@@ -20,4 +21,6 @@ public interface ProductService {
     PageInfo listForAdmin(Integer pageNum, Integer pageSize);
 
     Product detail(Integer id);
+
+    PageInfo list(ProductListReq productListReq);
 }

@@ -69,10 +69,10 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     // ArrayList需要范型的时候加上<>
-    public List<CategoryVo> listCategoryForCustomer() {
+    public List<CategoryVo> listCategoryForCustomer(Integer parentId) {
         ArrayList<CategoryVo> categoryVoList = new ArrayList<> ();
         // 其实就是【前端的】一个递归方法
-        recursivelyFindCategories (categoryVoList, 0);
+        recursivelyFindCategories (categoryVoList, parentId);
         return categoryVoList;
     }
 
