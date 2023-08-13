@@ -128,7 +128,7 @@
                p.name     as productName,
                p.image    as productImage
         from m_cart c
-                 left join imooc_mall_product p on p.id = c.product_id
+                 left join m_product p on p.id = c.product_id
         where c.user_id = #{userId}
           and p.status = 1
     </select>

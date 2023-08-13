@@ -22,11 +22,19 @@ public class CartController {
     @Autowired
     CartService cartService;
 
-    @ApiOperation ("添加商品到购物车")
+    @ApiOperation("购物车列表")
+    @GetMapping("/list")
+    public ApiRestResponse list() {
+        // 内部获取用户ID，防止横向越权
+        List<CartVo> cartList = cartService.list (UserFilter.currentUser.getId ());
+        return ApiRestResponse.success (cartList);
+    }
+
+    @ApiOperation("添加商品到购物车")
     @PostMapping("/add")
     public ApiRestResponse add(@RequestParam Integer productId, @RequestParam Integer count) {
 
-        cartService.add (UserFilter.currentUser.getId (), productId, count);
-        return ApiRestResponse.success ();
+        List<CartVo> cartVoList = cartService.add (UserFilter.currentUser.getId (), productId, count);
+        return ApiRestResponse.success (cartVoList);
     }
 }

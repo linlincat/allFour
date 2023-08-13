@@ -11,5 +11,7 @@ import java.util.List;
 
 public interface CartService {
 
+    List<CartVo> list(Integer userId);
+
     List<CartVo> add(Integer userId, Integer productId, Integer count);
 }
