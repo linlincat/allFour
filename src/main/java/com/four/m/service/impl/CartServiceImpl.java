@@ -114,4 +114,22 @@ public class CartServiceImpl implements CartService {
             throw new FourException (FourExceptionEnum.NOT_ENOUGH);
         }
     }
+
+    @Override
+    public  List<CartVo> selectOrNot(Integer userId, Integer productId, Integer selected) {
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，报错
+            throw new FourException (FourExceptionEnum.UPDATE_FAILED);
+        } else {
+            cartMapper.selectOrNot (userId, productId, selected);
+        }
+        return this.list (userId);
+    }
+
+    @Override
+    public  List<CartVo> selectAllOrNot(Integer userId, Integer selected) {
+        cartMapper.selectOrNot (userId, null, selected);
+        return this.list (userId);
+    }
 }
