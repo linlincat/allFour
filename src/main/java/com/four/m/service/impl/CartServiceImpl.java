@@ -67,6 +67,40 @@ public class CartServiceImpl implements CartService {
         return this.list(userId);
     }
 
+    @Override
+    public List<CartVo> update(Integer userId, Integer productId, Integer count) {
+        validProduct(productId, count);
+
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，报错
+            throw new FourException (FourExceptionEnum.UPDATE_FAILED);
+        } else {
+            //这个商品已经在购物车里了，则数量相加
+            Cart cartNew = new Cart();
+            cartNew.setQuantity(count);
+            cartNew.setId(cart.getId());
+            cartNew.setProductId(cart.getProductId());
+            cartNew.setUserId(cart.getUserId());
+            cartNew.setSelected(Constant.Cart.SELECTED);
+            cartMapper.updateByPrimaryKeySelective(cartNew);
+        }
+        return this.list(userId);
+    }
+
+    @Override
+    public List<CartVo> delete(Integer userId, Integer productId) {
+
+        Cart cart = cartMapper.selectCartByUserIdAndProductId(userId, productId);
+        if (cart == null) {
+            //这个商品之前不在购物车里，报错
+            throw new FourException (FourExceptionEnum.DELETE_FAILED);
+        } else {
+            cartMapper.deleteByPrimaryKey (cart.getId ());
+        }
+        return this.list(userId);
+    }
+
 
     private void validProduct(Integer productId, Integer count) {
         Product product = productMapper.selectByPrimaryKey (productId);
