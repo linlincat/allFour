@@ -27,7 +27,8 @@ public interface ProductMapper {
 
     int batchUpdateSellStatus(@Param("ids") Integer[] ids, @Param("sellStatus") Integer sellStatus);
 
-List<Product> selectListForAdmin();
+    List<Product> selectListForAdmin();
+
     List<Product> selectList(@Param("query") ProductListQuery query);
 
 }

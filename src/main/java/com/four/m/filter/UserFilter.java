@@ -21,19 +21,26 @@ import java.io.PrintWriter;
 //implements Filter 要用javax.servlet的引用
 public class UserFilter implements Filter {
 
-    public static  User currentUser;
+    public static User currentUser;
     @Autowired
+
     UserService userService;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request1 = (HttpServletRequest) request;
-        HttpSession session = request1.getSession ();
-         currentUser = (User) session.getAttribute (Constant.FOUR_USER);
+    public void init(FilterConfig filterConfig) throws ServletException {
+
+    }
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+                         FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpSession session = request.getSession();
+        currentUser = (User) session.getAttribute(Constant.FOUR_USER);
         if (currentUser == null) {
-            PrintWriter out = new HttpServletResponseWrapper (
-                    (HttpServletResponse) response).getWriter ();
-            out.write ("{\n"
+            PrintWriter out = new HttpServletResponseWrapper(
+                    (HttpServletResponse) servletResponse).getWriter();
+            out.write("{\n"
                     + "    \"status\": 10007,\n"
                     + "    \"msg\": \"NEED_LOGIN\",\n"
                     + "    \"data\": null\n"
@@ -45,16 +52,11 @@ public class UserFilter implements Filter {
             return;
 //            return ApiRestResponse.error (FourExceptionEnum.NEED_LOGIN);
         }
-        chain.doFilter (request, response);
-    }
-
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init (filterConfig);
+        filterChain.doFilter(servletRequest, servletResponse);
     }
 
     @Override
     public void destroy() {
-        Filter.super.destroy ();
+
     }
 }

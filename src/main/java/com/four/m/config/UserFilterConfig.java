@@ -1,6 +1,7 @@
 package com.four.m.config;
 
 import com.four.m.filter.AdminFilter;
+import com.four.m.filter.UserFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -14,18 +15,18 @@ import javax.servlet.Filter;
 public class UserFilterConfig {
 
     @Bean  //让spring识别到
-    public AdminFilter UserFilter() {
-        return new AdminFilter ();
+    public UserFilter userFilter() {
+        return new UserFilter();
     }
 
     @Bean(name = "userFilterConf")
     public FilterRegistrationBean userFilterConfig() {
-        FilterRegistrationBean<Filter> filterFilterRegistrationBean = new FilterRegistrationBean<> ();
-        filterFilterRegistrationBean.setFilter (UserFilter ());
-        filterFilterRegistrationBean.addUrlPatterns ("/cart/*");
-        filterFilterRegistrationBean.addUrlPatterns ("/order/*");
-        filterFilterRegistrationBean.setName ("userFilterConfig");
-        return filterFilterRegistrationBean;
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(userFilter());
+        filterRegistrationBean.addUrlPatterns("/cart/*");
+        filterRegistrationBean.addUrlPatterns("/order/*");
+        filterRegistrationBean.setName("userFilterConf");
+        return filterRegistrationBean;
     }
 }
 

@@ -21,49 +21,49 @@ public class AdminFilter implements Filter {
     UserService userService;
 
     @Override
-    public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
-        HttpServletRequest request1 = (HttpServletRequest) request;
-        HttpSession session = request1.getSession ();
-        User currentUser = (User) session.getAttribute (Constant.FOUR_USER);
+    public void init(FilterConfig filterConfig) throws ServletException {
+//        Filter.super.init (filterConfig);
+    }
+
+
+    @Override
+    public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
+                         FilterChain filterChain) throws IOException, ServletException {
+        HttpServletRequest request = (HttpServletRequest) servletRequest;
+        HttpSession session = request.getSession();
+        User currentUser = (User) session.getAttribute(Constant.FOUR_USER);
         if (currentUser == null) {
-            PrintWriter out = new HttpServletResponseWrapper (
-                    (HttpServletResponse) response).getWriter ();
-            out.write ("{\n"
+            PrintWriter out = new HttpServletResponseWrapper(
+                    (HttpServletResponse) servletResponse).getWriter();
+            out.write("{\n"
                     + "    \"status\": 10007,\n"
                     + "    \"msg\": \"NEED_LOGIN\",\n"
                     + "    \"data\": null\n"
                     + "}");
-//            flush是把流里的缓冲数据输出，flush以后还能继续使用这个OutputStream。
-//            close是把这个流关闭了，也就是说以后这个OutputStream就不能用了，不过关闭之前会把缓冲的数据都输出
-            out.flush ();
-            out.close ();
+            out.flush();
+            out.close();
             return;
-//            return ApiRestResponse.error (FourExceptionEnum.NEED_LOGIN);
         }
-        boolean adminRole = userService.checkAdminRole (currentUser);
+        //校验是否是管理员
+        boolean adminRole = userService.checkAdminRole(currentUser);
         if (adminRole) {
-            // doFilter 的参数
-            chain.doFilter (request, response);
+            filterChain.doFilter(servletRequest, servletResponse);
         } else {
-            PrintWriter out = new HttpServletResponseWrapper (
-                    (HttpServletResponse) response).getWriter ();
-            out.write ("{\n"
+            PrintWriter out = new HttpServletResponseWrapper(
+                    (HttpServletResponse) servletResponse).getWriter();
+            out.write("{\n"
                     + "    \"status\": 10009,\n"
                     + "    \"msg\": \"NEED_ADMIN\",\n"
                     + "    \"data\": null\n"
                     + "}");
-            out.flush ();
-            out.close ();
+            out.flush();
+            out.close();
         }
     }
 
-    @Override
-    public void init(FilterConfig filterConfig) throws ServletException {
-        Filter.super.init (filterConfig);
-    }
 
     @Override
     public void destroy() {
-        Filter.super.destroy ();
+//        Filter.super.destroy ();
     }
 }

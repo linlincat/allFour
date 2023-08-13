@@ -15,18 +15,18 @@ public class AdminFilterConfig {
 
     @Bean  //让spring识别到
     public AdminFilter adminFilter() {
-        return new AdminFilter ();
+        return new AdminFilter();
     }
 
     @Bean(name = "adminFilterConf")
     public FilterRegistrationBean adminFilterConfig() {
-        FilterRegistrationBean<Filter> filterFilterRegistrationBean = new FilterRegistrationBean<> ();
-        filterFilterRegistrationBean.setFilter (adminFilter ());
-        filterFilterRegistrationBean.addUrlPatterns ("/admin/category/*");
-        filterFilterRegistrationBean.addUrlPatterns ("/admin/product/*");
-        filterFilterRegistrationBean.addUrlPatterns ("/admin/order/*");
-        filterFilterRegistrationBean.setName ("adminFilterConf");
-        return filterFilterRegistrationBean;
+        FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
+        filterRegistrationBean.setFilter(adminFilter());
+        filterRegistrationBean.addUrlPatterns("/admin/category/*");
+        filterRegistrationBean.addUrlPatterns("/admin/product/*");
+        filterRegistrationBean.addUrlPatterns("/admin/order/*");
+        filterRegistrationBean.setName("adminFilterConf");
+        return filterRegistrationBean;
     }
 }
 
