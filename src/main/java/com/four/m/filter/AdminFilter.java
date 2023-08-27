@@ -47,6 +47,7 @@ public class AdminFilter implements Filter {
         //校验是否是管理员
         boolean adminRole = userService.checkAdminRole(currentUser);
         if (adminRole) {
+            // 往下执行
             filterChain.doFilter(servletRequest, servletResponse);
         } else {
             PrintWriter out = new HttpServletResponseWrapper(

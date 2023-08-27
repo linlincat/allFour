@@ -35,24 +35,24 @@ public class UserFilter implements Filter {
     public void doFilter(ServletRequest servletRequest, ServletResponse servletResponse,
                          FilterChain filterChain) throws IOException, ServletException {
         HttpServletRequest request = (HttpServletRequest) servletRequest;
-        HttpSession session = request.getSession();
-        currentUser = (User) session.getAttribute(Constant.FOUR_USER);
+        HttpSession session = request.getSession ();
+        currentUser = (User) session.getAttribute (Constant.FOUR_USER);
         if (currentUser == null) {
-            PrintWriter out = new HttpServletResponseWrapper(
-                    (HttpServletResponse) servletResponse).getWriter();
-            out.write("{\n"
+            PrintWriter out = new HttpServletResponseWrapper (
+                    (HttpServletResponse) servletResponse).getWriter ();
+            out.write ("{\n"
                     + "    \"status\": 10007,\n"
                     + "    \"msg\": \"NEED_LOGIN\",\n"
                     + "    \"data\": null\n"
                     + "}");
-//            flush是把流里的缓冲数据输出，flush以后还能继续使用这个OutputStream。
-//            close是把这个流关闭了，也就是说以后这个OutputStream就不能用了，不过关闭之前会把缓冲的数据都输出
+            // flush是把流里的缓冲数据输出，flush以后还能继续使用这个OutputStream。
+            // close是把这个流关闭了，也就是说以后这个OutputStream就不能用了，不过关闭之前会把缓冲的数据都输出
             out.flush ();
             out.close ();
             return;
-//            return ApiRestResponse.error (FourExceptionEnum.NEED_LOGIN);
+            // return ApiRestResponse.error (FourExceptionEnum.NEED_LOGIN);
         }
-        filterChain.doFilter(servletRequest, servletResponse);
+        filterChain.doFilter (servletRequest, servletResponse);
     }
 
     @Override
