@@ -1,7 +1,5 @@
 package com.four.m.model.vo;
 
-import java.util.Date;
-
 public class OrderItemVO {
     private String orderNo;
 

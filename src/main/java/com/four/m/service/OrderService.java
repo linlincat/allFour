@@ -1,6 +1,7 @@
 package com.four.m.service;
 
 import com.four.m.model.request.OrderReq;
+import com.four.m.model.vo.OrderVO;
 import com.github.pagehelper.PageInfo;
 import org.springframework.stereotype.Service;
 
@@ -10,6 +11,13 @@ import org.springframework.stereotype.Service;
 @Service
 public interface OrderService {
     String create(OrderReq orderReq);
+
+    //    @Override
+    //    public OrderVO detail() {
+    //        return detail ();
+    //    }
+    //
+    OrderVO detail(String orderNo);
 //
 //    com.imooc.mall.model.vo.OrderVO detail(String orderNo);
 //

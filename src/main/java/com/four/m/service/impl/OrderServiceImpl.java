@@ -13,6 +13,7 @@ import com.four.m.mapper.OrderMapper;
 import com.four.m.mapper.ProductMapper;
 import com.four.m.model.request.OrderReq;
 import com.four.m.model.vo.CartVo;
+import com.four.m.model.vo.OrderItemVO;
 import com.four.m.model.vo.OrderVO;
 import com.four.m.service.CartService;
 import com.four.m.service.OrderService;
@@ -21,8 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.four.m.utils.OrderCodeFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.CollectionUtils;
 
 /**
@@ -46,6 +49,8 @@ public class OrderServiceImpl implements OrderService {
     @Autowired
     OrderItemMapper orderItemMapper;
 
+    // 数据库事务 - 遇到任何的问题都会回滚
+    @Transactional(rollbackFor = Exception.class)
     @Override
     public String create(OrderReq orderReq) {
         //拿到用户ID
@@ -61,12 +66,12 @@ public class OrderServiceImpl implements OrderService {
         }
         cartVoList = cartVoArrayListTemp;
         //如果购物车已勾选的为空，报错
-        if(CollectionUtils.isEmpty (cartVoList)) {
+        if (CollectionUtils.isEmpty (cartVoList)) {
             throw new FourException (FourExceptionEnum.CART_EMPTY);
         }
         //从购物车查找已经勾选的商品
 //        判断商品是否存在、上下架状态、库存
-        validSaleStatusAndStock(cartVoList);
+        validSaleStatusAndStock (cartVoList);
 //        把购物车对象转为订单item对象
         List<OrderItem> orderItemList = cartVoListToOrderItemList (cartVoList);
         //扣库存
@@ -74,21 +79,21 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = orderItemList.get (i);
             Product product = productMapper.selectByPrimaryKey (orderItem.getProductId ());
             int stock = product.getStock () - orderItem.getQuantity ();
-            if(stock < 0) {
+            if (stock < 0) {
                 throw new FourException (FourExceptionEnum.NOT_ENOUGH);
             }
             product.setStock (stock);
             productMapper.updateByPrimaryKeySelective (product);
         }
         //把购物车中的已勾选商品删除
-        clearCart(cartVoList);
+        clearCart (cartVoList);
         //生成订单
         Order order = new Order ();
         //生成订单号，有独立的规则
         String orderNo = OrderCodeFactory.getOrderCode (Long.valueOf (userId));
         order.setOrderNo (orderNo);
         order.setUserId (userId);
-        order.setTotalPrice (totalPrice(orderItemList));
+        order.setTotalPrice (totalPrice (orderItemList));
         order.setReceiverName (orderReq.getReceiverName ());
         order.setReceiverAddress (orderReq.getReceiverAddress ());
         order.setReceiverMobile (orderReq.getReceiverMobile ());
@@ -113,7 +118,7 @@ public class OrderServiceImpl implements OrderService {
             OrderItem orderItem = orderItemList.get (i);
             totalPrice += orderItem.getTotalPrice ();
         }
-        return  totalPrice;
+        return totalPrice;
     }
 
     private void clearCart(List<CartVo> cartVoList) {
@@ -138,10 +143,10 @@ public class OrderServiceImpl implements OrderService {
 
             orderItemList.add (orderItem);
         }
-        return  orderItemList;
+        return orderItemList;
     }
 
-    private  void validSaleStatusAndStock(List<CartVo> cartVoList) {
+    private void validSaleStatusAndStock(List<CartVo> cartVoList) {
         for (int i = 0; i < cartVoList.size (); i++) {
             CartVo cartVo = cartVoList.get (i);
             Product product = productMapper.selectByPrimaryKey (cartVo.getProductId ());
@@ -158,63 +163,44 @@ public class OrderServiceImpl implements OrderService {
 
     }
 
-//
-//    //数据库事务
-//    @Transactional(rollbackFor = Exception.class)
-//    @Override
-//
-//    private void validSaleStatusAndStock(List<CartVo> cartVOList) {
-//        for (int i = 0; i < cartVOList.size(); i++) {
-//            CartVo cartVO = cartVOList.get(i);
-//            Product product = productMapper.selectByPrimaryKey(cartVO.getProductId());
-//            //判断商品是否存在，商品是否上架
-//            if (product == null || product.getStatus().equals(Constant.SaleStatus.NOT_SALE)) {
-//                throw new FourException (FourExceptionEnum.NOT_SALE);
-//            }
-//            //判断商品库存
-//            if (cartVO.getQuantity() > product.getStock()) {
-//                throw new FourException (FourExceptionEnum.NOT_ENOUGH);
-//            }
-//        }
-//    }
-//
-//    @Override
+    //    @Override
 //    public OrderVO detail() {
 //        return detail ();
 //    }
 //
-//    @Override
-//    public OrderVO detail(String orderNo) {
-//        Order order = orderMapper.selectByOrderNo(orderNo);
-//        //订单不存在，则报错
-//        if (order == null) {
-//            throw new FourException (FourExceptionEnum.NO_ORDER);
-//        }
-//        //订单存在，需要判断所属
-//        Integer userId = UserFilter.currentUser.getId();
-//        if (!order.getUserId().equals(userId)) {
-//            throw new FourException (FourExceptionEnum.NOT_YOUR_ORDER);
-//        }
-//           OrderVO orderVO = getOrderVO(order);
-//        return orderVO;
-//    }
-//
-//    private OrderVO getOrderVO(Order order) {
-//           OrderVO orderVO = new OrderVO ();
-//        BeanUtils.copyProperties(order, orderVO);
-//        //获取订单对应的orderItemVOList
-//        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNo(order.getOrderNo());
-//        List<OrderItemVO> orderItemVOList = new ArrayList<>();
-//        for (int i = 0; i < orderItemList.size(); i++) {
-//            OrderItem orderItem = orderItemList.get(i);
-//            OrderItemVO orderItemVO = new OrderItemVO ();
-//            BeanUtils.copyProperties(orderItem, orderItemVO);
-//            orderItemVOList.add(orderItemVO);
-//        }
-//        orderVO.setOrderItemVOList(orderItemVOList);
-//        orderVO.setOrderStatusName(OrderStatusEnum.codeOf(orderVO.getOrderStatus()).getValue());
-//        return orderVO;
-//    }
+    @Override
+    public OrderVO detail(String orderNo) {
+        // 为了安全不能用key所以写了个selectByOrderNo的方法
+        Order order = orderMapper.selectByOrderNo (orderNo);
+        //订单不存在，则报错
+        if (order == null) {
+            throw new FourException (FourExceptionEnum.NO_ORDER);
+        }
+        //订单存在，需要判断所属
+        Integer userId = UserFilter.currentUser.getId ();
+        if (!order.getUserId ().equals (userId)) {
+            throw new FourException (FourExceptionEnum.NOT_YOUR_ORDER);
+        }
+        OrderVO orderVO = getOrderVO (order);
+        return orderVO;
+    }
+
+    private OrderVO getOrderVO(Order order) {
+        OrderVO orderVO = new OrderVO ();
+        BeanUtils.copyProperties (order, orderVO);
+        //获取订单对应的orderItemVOList
+        List<OrderItem> orderItemList = orderItemMapper.selectByOrderNo (order.getOrderNo ());
+        List<OrderItemVO> orderItemVOList = new ArrayList<> ();
+        for (int i = 0; i < orderItemList.size (); i++) {
+            OrderItem orderItem = orderItemList.get (i);
+            OrderItemVO orderItemVO = new OrderItemVO ();
+            BeanUtils.copyProperties (orderItem, orderItemVO);
+            orderItemVOList.add (orderItemVO);
+        }
+        orderVO.setOrderItemVOList (orderItemVOList);
+        orderVO.setOrderStatusName (Constant.OrderStatusEnum.codeOf (orderVO.getOrderStatus ()).getValue ());
+        return orderVO;
+    }
 //
 //    @Override
 //    public PageInfo listForCustomer(Integer pageNum, Integer pageSize) {
@@ -321,7 +307,8 @@ public class OrderServiceImpl implements OrderService {
 //            throw new FourException (ImoocMallExceptionEnum.NO_ORDER);
 //        }
 //        //如果是普通用户，就要校验订单的所属
-//        if (!userService.checkAdminRole(UserFilter.currentUser) && !order.getUserId().equals(UserFilter.currentUser.getId())) {
+//        if (!userService.checkAdminRole(UserFilter.currentUser) && !order.getUserId().equals(UserFilter.currentUser
+//        .getId())) {
 //            throw new ImoocMallException(ImoocMallExceptionEnum.NOT_YOUR_ORDER);
 //        }
 //        //发货后可以完结订单
