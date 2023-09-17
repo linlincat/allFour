@@ -18,6 +18,20 @@ public interface OrderService {
     //    }
     //
     OrderVO detail(String orderNo);
+
+    //
+    //    @Override
+    //    public PageInfo listForCustomer(Integer pageNum, Integer pageSize) {
+    //        Integer userId = UserFilter.currentUser.getId();
+    //        PageHelper.startPage(pageNum, pageSize);
+    //        List<Order> orderList = orderMapper.selectForCustomer(userId);
+    //        List<OrderVO> orderVOList = orderListToOrderVOList(orderList);
+    //        PageInfo pageInfo = new PageInfo<>(orderList);
+    //        pageInfo.setList(orderVOList);
+    //        return pageInfo;
+    //    }
+    //
+    void cancel(String orderNo);
 //
 //    com.imooc.mall.model.vo.OrderVO detail(String orderNo);
 //

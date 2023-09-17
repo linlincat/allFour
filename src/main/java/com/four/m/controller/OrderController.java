@@ -29,8 +29,15 @@ public class OrderController {
     @GetMapping("order/detail")
     @ApiOperation("前台订单详情")
     public ApiRestResponse detail(@RequestParam String orderNo) {
-       OrderVO orderVO = orderService.detail (orderNo);
+        OrderVO orderVO = orderService.detail (orderNo);
         // 成功后 - 返回前端订单号
         return ApiRestResponse.success (orderVO);
+    }
+
+    @PostMapping("order/cancel")
+    @ApiOperation("前台取消订单")
+    public ApiRestResponse cancel(@RequestParam String orderNo) {
+        orderService.cancel (orderNo);
+        return ApiRestResponse.success ();
     }
 }
